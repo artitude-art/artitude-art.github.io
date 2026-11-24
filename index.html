@@ -992,6 +992,16 @@ document.addEventListener('click',e=>{
 document.addEventListener('keydown',e=>{ if(e.key==='Escape' && !document.getElementById('wov').hidden) closeWork(); });
 document.addEventListener('change',e=>{ const s=e.target.closest('[data-cmp-from]'); if(s&&s.value){ history.replaceState(null,'','#compare-'+s.dataset.cmpFrom+'-'+s.value); route(); } });
 window.addEventListener('hashchange',route); route();
+/* visitor counts (GoatCounter, no cookies): only on the public site; each page and artwork counts as its own path */
+if(location.hostname==='artitude-art.github.io'){
+  const gcPath=()=>'/'+(location.hash.slice(1)||'');
+  window.goatcounter={no_onload:true};
+  const gc=document.createElement('script'); gc.async=true; gc.src='https://gc.zgo.at/count.js';
+  gc.dataset.goatcounter='https://artitude-art.goatcounter.com/count';
+  gc.onload=()=>{ try{window.goatcounter.count({path:gcPath()})}catch(e){} };
+  document.head.appendChild(gc);
+  window.addEventListener('hashchange',()=>{ try{window.goatcounter.count&&window.goatcounter.count({path:gcPath()})}catch(e){} });
+}
 document.querySelectorAll('.pick button').forEach(b=>b.onclick=()=>show(b.dataset.v));
 let v0='3'; try{v0=localStorage.getItem('heroV')||'3'}catch(e){}
 if(!['3','4'].includes(v0)) v0='3';
