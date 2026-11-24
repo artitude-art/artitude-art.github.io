@@ -499,7 +499,7 @@ html:not([data-lang="zh"]) .lseg [data-setlang="en"],html[data-lang="zh"] .lseg 
 .sitefoot span{display:block}
 </style>
 
-<div class="unoff"><span class="en">What makes art fascinating is that the same artwork can hold so many different stories.</span><span class="zh">藝術有趣的地方，在於同一件作品，總能讓人看見不同的故事。</span></div>
+<div class="unoff"><span class="en">The beauty of art lies in how it speaks differently to each of us.</span><span class="zh">藝術有趣的地方，在於同一件作品，總能讓人看見不同的故事。</span></div>
 
 <header class="site pad2">
   <a class="logo-img" href="#"><img src="logo.svg" alt="藝見 ARTITUDE" width="160" height="48"></a>
@@ -507,7 +507,7 @@ html:not([data-lang="zh"]) .lseg [data-setlang="en"],html[data-lang="zh"] .lseg 
   <button class="mbtn" type="button" aria-expanded="false" aria-controls="mmenu" data-mopen>Menu</button>
 </header>
 <div class="mmenu" id="mmenu" role="dialog" aria-modal="true" aria-label="Menu" hidden>
-  <div class="unoff"><span class="en">What makes art fascinating is that the same artwork can hold so many different stories.</span><span class="zh">藝術有趣的地方，在於同一件作品，總能讓人看見不同的故事。</span></div>
+  <div class="unoff"><span class="en">The beauty of art lies in how it speaks differently to each of us.</span><span class="zh">藝術有趣的地方，在於同一件作品，總能讓人看見不同的故事。</span></div>
   <div class="site pad2"><a class="logo-img" href="#" data-mclose><img src="logo.svg" alt="藝見 ARTITUDE" width="160" height="48"></a><button class="mbtn" type="button" data-mclose>Close</button></div>
   <nav class="mnav pad2" aria-label="Pages"><a href="#" data-page="home" data-mclose><span class="en">Search</span><span class="zh">搜尋</span><small>01</small></a><a href="#timeline" data-page="explore" data-mclose><span class="en">Explore</span><span class="zh">探索</span><small>02</small></a><a href="#about" data-page="about" data-mclose><span class="en">About</span><span class="zh">關於</span><small>03</small></a></nav>
   <p class="mlang pad2"><span class="lseg" role="group" aria-label="Language"><button type="button" data-setlang="en" lang="en">EN</button><i aria-hidden="true"></i><button type="button" data-setlang="zh" lang="zh-Hant">中</button></span></p>
@@ -851,7 +851,6 @@ function tabsHTML(d){ const c=CT.works[d.id], ps=ctPairs(d.id);
     ${c.story.map((s,i)=>`<p class="t-body">${BE(s,(c.story_zh||[])[i])}</p>`).join('')}
     ${c.reading?`<p class="t-reading">${BE(c.reading,c.reading_zh)}</p>`:''}
     ${BY[d.id]?`<section class="t-beyond"><p class="t-axis">Beyond the painting</p>${BD(BY[d.id].html,BY[d.id].html_zh||BY[d.id].html)}<p class="wsmall">${BE(BY[d.id].note,BY[d.id].note_zh)} · ${B('Source:','來源：')} <a href="${BY[d.id].src[1]}" target="_blank" rel="noopener">${esc(BY[d.id].src[0])}<i class="ne" aria-hidden="true"></i></a></p></section>`:''}
-    <p class="t-note">${B('Art can hold more than one meaning. This guide offers a starting point, not a single correct interpretation.','藝術可以有不只一種意義。這份導覽提供一個起點，而不是唯一正確的解讀。')}</p>
   </section>
   ${ps.length?`<section class="t-panel" id="tp-cmp" role="tabpanel" aria-labelledby="tab-cmp" hidden>${ps.map(p=>pairHTML(p,d.id)).join('')}</section>`:''}`; }
 function placeBar(){ const b=document.querySelector('.t-tabs [aria-selected="true"]'), bar=document.querySelector('.t-bar'); if(!b||!bar) return; bar.style.width=b.offsetWidth+'px'; bar.style.transform=`translateX(${b.offsetLeft}px)`; }
