@@ -14,7 +14,7 @@
   --f-body:"Noto Sans TC","PingFang TC",system-ui,sans-serif;
 }
 *{box-sizing:border-box}
-html,body{background:var(--paper)}
+html,body{background:var(--paper);margin:0}
 /* footer always sits at the bottom of the screen on short pages, and after the content on long ones */
 body{color:var(--ink);font:15px/1.6 var(--f-body);overflow-x:hidden;display:flex;flex-direction:column;min-height:100vh;min-height:100dvh}
 body>*{flex-shrink:0;min-width:0;width:100%;box-sizing:border-box}
@@ -340,7 +340,14 @@ html[data-lang="zh"] .en{display:none!important}
 .langbtn{border:0;background:none;padding:0 0 2px;font:400 13px "Inter Tight","Noto Sans TC",system-ui,sans-serif;color:var(--muted);cursor:pointer;margin-left:6px;padding-top:4px}
 .langbtn:hover{color:var(--ink)}
 .mlang{margin:24px 0 0;font-size:15px}
-.mlang .langbtn{font-size:15px;margin:0;color:var(--ink);border-bottom:1px solid var(--ink)}
+.lseg{display:inline-flex;align-items:center;gap:9px;margin-left:8px;padding-top:4px}
+.lseg i{width:1px;height:11px;background:var(--line)}
+.lseg button{border:0;background:none;padding:0 0 2px;font:400 13px "Inter Tight","Noto Sans TC",system-ui,sans-serif;color:var(--muted);cursor:pointer;border-bottom:1px solid transparent}
+.lseg button:hover{color:var(--ink)}
+html:not([data-lang="zh"]) .lseg [data-setlang="en"],html[data-lang="zh"] .lseg [data-setlang="zh"]{color:var(--ink);border-bottom-color:var(--ink);cursor:default}
+.mlang .lseg{margin:0;padding:0;gap:14px}
+.mlang .lseg button{font-size:15px}
+.mlang .lseg i{height:14px}
 .start{font-family:"Inter","Noto Sans TC",system-ui,sans-serif;max-width:1000px;margin:clamp(56px,9vw,110px) auto 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 .st-lab{font:500 11px "Inter Tight","Noto Sans TC",system-ui,sans-serif;letter-spacing:.24em;text-transform:uppercase;margin:0 0 16px}
 .st-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
@@ -496,14 +503,14 @@ html[data-lang="zh"] .en{display:none!important}
 
 <header class="site pad2">
   <a class="logo-img" href="#"><img src="logo.svg" alt="藝見 ARTITUDE" width="160" height="48"></a>
-  <nav class="nav" aria-label="Pages"><a href="#" data-page="home"><span class="en">Search</span><span class="zh">搜尋</span></a><a href="#timeline" data-page="explore"><span class="en">Explore</span><span class="zh">探索</span></a><a href="#about" data-page="about"><span class="en">About</span><span class="zh">關於</span></a><button class="langbtn" type="button" data-langtoggle aria-label="Switch language"><span class="en">中文</span><span class="zh">EN</span></button></nav>
+  <nav class="nav" aria-label="Pages"><a href="#" data-page="home"><span class="en">Search</span><span class="zh">搜尋</span></a><a href="#timeline" data-page="explore"><span class="en">Explore</span><span class="zh">探索</span></a><a href="#about" data-page="about"><span class="en">About</span><span class="zh">關於</span></a><span class="lseg" role="group" aria-label="Language"><button type="button" data-setlang="en" lang="en">EN</button><i aria-hidden="true"></i><button type="button" data-setlang="zh" lang="zh-Hant">中</button></span></nav>
   <button class="mbtn" type="button" aria-expanded="false" aria-controls="mmenu" data-mopen>Menu</button>
 </header>
 <div class="mmenu" id="mmenu" role="dialog" aria-modal="true" aria-label="Menu" hidden>
   <div class="unoff"><span class="en">What makes art fascinating is that the same artwork can hold so many different stories.</span><span class="zh">藝術迷人的地方，在於同一件作品，可以裝下許多不同的故事。</span></div>
   <div class="site pad2"><a class="logo-img" href="#" data-mclose><img src="logo.svg" alt="藝見 ARTITUDE" width="160" height="48"></a><button class="mbtn" type="button" data-mclose>Close</button></div>
   <nav class="mnav pad2" aria-label="Pages"><a href="#" data-page="home" data-mclose><span class="en">Search</span><span class="zh">搜尋</span><small>01</small></a><a href="#timeline" data-page="explore" data-mclose><span class="en">Explore</span><span class="zh">探索</span><small>02</small></a><a href="#about" data-page="about" data-mclose><span class="en">About</span><span class="zh">關於</span><small>03</small></a></nav>
-  <p class="mlang pad2"><button class="langbtn" type="button" data-langtoggle><span class="en">中文版</span><span class="zh">English</span></button></p>
+  <p class="mlang pad2"><span class="lseg" role="group" aria-label="Language"><button type="button" data-setlang="en" lang="en">EN</button><i aria-hidden="true"></i><button type="button" data-setlang="zh" lang="zh-Hant">中</button></span></p>
   <p class="mfoot pad2">An independent project · All paintings shown are public domain</p>
 </div>
 <div id="home">
@@ -565,7 +572,7 @@ const BD=(en,zh)=>`<div class="en">${en}</div><div class="zh">${zh}</div>`;
 const BE=(en,zh)=>B(esc(en),esc(zh||en));
 function setLang(l){ LANG=l; document.documentElement.dataset.lang=l; document.documentElement.lang=l==='zh'?'zh-Hant':'en'; try{localStorage.setItem('artLang',l)}catch(e){}
   if(typeof setSearch==='function'){ const s=document.querySelector('.search'); setSearch(s?s.dataset.s:'a'); } if(typeof renderResults==='function') renderResults(); }
-document.addEventListener('click',e=>{ const b=e.target.closest('[data-langtoggle]'); if(b) setLang(LANG==='zh'?'en':'zh'); });
+document.addEventListener('click',e=>{ const b=e.target.closest('[data-setlang]'); if(b&&b.dataset.setlang!==LANG) setLang(b.dataset.setlang); });
 const D = [{"img": "image115.jpg", "t": "Victoria Dubourg", "a": "Edgar Degas", "y": 1868}, {"img": "image108.jpg", "t": "Road at Wargemont", "a": "Pierre-Auguste Renoir", "y": 1879}, {"img": "image118.jpg", "t": "Antonin Proust", "a": "Édouard Manet", "y": 1880}, {"img": "image116.jpg", "t": "In the Garden at Maurecourt", "a": "Berthe Morisot", "y": 1884}, {"img": "image113.jpg", "t": "Avenue at Chantilly", "a": "Paul Cézanne", "y": 1888}, {"img": "image106.jpg", "t": "Wheat Fields with Reaper, Auvers", "a": "Vincent van Gogh", "y": 1890}, {"img": "image109.jpg", "t": "Street in Tahiti", "a": "Paul Gauguin", "y": 1891}, {"img": "image117.jpg", "t": "The Roofs of Old Rouen, Gray Weather", "a": "Camille Pissarro", "y": 1896}, {"img": "image114.jpg", "t": "The Dancers", "a": "Edgar Degas", "y": 1899}, {"img": "image110.jpg", "t": "Flower Market, Paris", "a": "Luther Emerson van Gorder", "y": 1900}, {"img": "image111.jpg", "t": "Entrance to the Grand Canal, Venice", "a": "Paul Signac", "y": 1905}, {"img": "image112.jpg", "t": "The City of Paris", "a": "Robert Delaunay", "y": 1911}, {"img": "image105.jpg", "t": "Water Lilies", "a": "Claude Monet", "y": 1922}, {"img": "image107.jpg", "t": "Composition with Red, Blue, Yellow, Black and Gray", "a": "Piet Mondrian", "y": 1922}];
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const art=(d,cls='',st='')=>`<span class="art ${cls}" style="${st}" title="${esc(d.t)} — ${esc(d.a)}"><img src="img/${d.img}" alt="${esc(d.t)}, ${esc(d.a)}" loading="lazy"></span>`;
