@@ -652,7 +652,7 @@ function reserve(){
   probe.style.cssText='position:absolute;visibility:hidden;left:0;right:0;pointer-events:none';
   box.parentNode.style.position='relative'; box.parentNode.appendChild(probe);
   let max=0; HERO.forEach(st=>{ probe.innerHTML=storyHTML(st); max=Math.max(max,probe.offsetHeight); });
-  probe.remove(); box.style.height=max+'px'; box.style.justifyContent='center';
+  probe.remove(); box.style.minHeight=max+'px'; box.style.justifyContent='center';
 }
 story(); reserve();
 let rz; window.addEventListener('resize',()=>{ clearTimeout(rz); rz=setTimeout(reserve,150); });
@@ -660,6 +660,7 @@ let rz; window.addEventListener('resize',()=>{ clearTimeout(rz); rz=setTimeout(r
 const heroImgs=[...new Set(HERO.flatMap(st=>st.parts.filter(p=>typeof p!=='string').map(p=>'img/'+SW[p.p].img)))];
 Promise.all([document.fonts?document.fonts.ready:Promise.resolve(),
   ...heroImgs.map(src=>new Promise(r=>{ const im=new Image(); im.onload=im.onerror=r; im.src=src; }))]).then(reserve);
+window.addEventListener('load',reserve); if(document.fonts) document.fonts.addEventListener('loadingdone',reserve);
 setInterval(()=>{ if(!paused && !document.hidden) story(); }, 20000);
 const NOTES={
   '3':'<b>句子標題</b>：首頁大字換成句子頁的延伸故事，畫嵌在句子裡，每次打開隨機一句，按 Another story 換下一句。Century of Light 縮到左上角。',
