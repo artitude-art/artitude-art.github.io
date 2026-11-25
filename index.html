@@ -696,8 +696,10 @@ const MV_TAG_ZH={'Fauvism':'野獸派','Realism':'寫實主義','Surrealism':'�
 const MV_IDEA={ren:'Art that explores the beauty of the human figure and the world around us.',imp:'Capturing a moment through light, colour and atmosphere.',amimp:'Finding beauty in familiar American landscapes and everyday moments.',post:'Transforming what we see into something personal and expressive.',vie:'Where fine art meets design, decoration and modern life.',cub:'Seeing familiar objects from unexpected angles, then through bold colour.',geo:'Finding meaning and harmony through shapes, colours and composition.',abex:'Expressing emotion through the act of painting itself.',pop:'Turning familiar images and everyday culture into art.',other:'Works from many periods that go beyond labels and traditional movements.'};
 let mvSel='';
 const tagsOf=d=>Object.keys(MV).filter(k=>MV[k].ids.includes(d.id));
+/* a name matches when the whole name, or any word in it, begins with what was typed (Monet → "mo", 莫內 → "莫") */
+const starts=(f,nq)=>{ if(!f) return false; const s=String(f).replace(/（暫譯）/g,''); return [s,...s.split(/[\s・·,\-–—'’()（）《》:：]+/)].some(w=>w&&norm(w).startsWith(nq)); };
 const hit=d=>{ if(mvSel) return MV[mvSel].ids.includes(d.id); if(!q) return true; const nq=norm(q);
-  return [d.te,d.tz,d.ae,d.az].some(f=>norm(f).includes(nq)) || tagsOf(d).some(k=>MV[k].keys.some(w=>norm(w)===nq||(nq.length>3&&norm(w).startsWith(nq)))); };
+  return [d.te,d.tz,d.ae,d.az].some(f=>starts(f,nq)) || tagsOf(d).some(k=>MV[k].keys.some(w=>norm(w)===nq||(nq.length>3&&norm(w).startsWith(nq)))); };
 /* timeline = vertical list grouped by century (before 1800) or decade; each work shows its movement */
 const tlOpenSet=new Set();
 function renderTL(){
