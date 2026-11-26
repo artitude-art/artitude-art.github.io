@@ -599,6 +599,9 @@ const SW = {
   w19:{img:'image117.jpg',t:'The Roofs of Old Rouen, Gray Weather',a:'Camille Pissarro',y:'1896'},
   w8:{img:'image108.jpg',t:'Road at Wargemont',a:'Pierre-Auguste Renoir',y:'1879'},
   w9:{img:'image109.jpg',t:'Street in Tahiti',a:'Paul Gauguin',y:'1891'},
+  /* paintings outside the exhibition, used only in the hero (public domain: Rijksmuseum via Wikimedia Commons; Art Institute of Chicago, CC0) */
+  nw:{img:'hero-nightwatch.jpg',t:'The Night Watch',a:'Rembrandt van Rijn',y:'1642'},
+  gj:{img:'hero-grandejatte.jpg',t:'A Sunday on La Grande Jatte',a:'Georges Seurat',y:'1884–86'},
 };
 const SS = [
   {id:'w7',k:'tri',parts:['In 1965,',{p:'w7'},'Mondrian’s grid','walked down','the YSL runway.'],
@@ -621,6 +624,15 @@ const SS = [
    more:'Portable tube paint, introduced in 1841, made painting outside far easier. It explains how the Impressionists worked; it does not prove this canvas was painted entirely outdoors.',src:['Phaidon','https://www.phaidon.com/agenda/art/articles/2014/december/03/how-renoir-captured-the-countryside-in-the-city/']},
   {id:'w9',k:'ana',parts:['Gauguin’s Tahiti',{p:'w9'},'looks a little like','a travel ad.'],
    more:'Travel ads shape a place through framing, color and symbols. Gauguin’s Tahiti also mixes memory and imagination, so it is not a record of daily life there.',src:['Art Institute of Chicago','https://www.artic.edu/artworks/27943']},
+  {id:'nw',k:'doc',parts:['In 1715,',{p:'nw'},'Rembrandt’s Night Watch','was cut down','to fit between two doors.'],
+   zh:'1715 年，林布蘭的《夜巡》被裁小，好塞進兩扇門之間。',
+   more:'When the painting moved to Amsterdam’s City Hall, strips were cut from all four sides, the largest from the left. The pieces have never been found.',src:['Rijksmuseum','https://www.rijksmuseum.nl/en/press/press-releases/for-the-first-time-in-300-years-the-night-watch-is-complete-again']},
+  {id:'gj',k:'doc',parts:['Up close,',{p:'gj'},'Seurat’s Sunday in the park','dissolves','into dots of color.'],
+   zh:'靠近看，秀拉的週日公園，會散成一點一點的顏色。',
+   more:'Figures and forms dissolve into dots and dashes of complementary colors laid side by side, Seurat’s pointillist technique.',src:['Art Institute of Chicago','https://www.artic.edu/artworks/27992']},
+  {id:'w3',k:'doc',parts:['Monet painted',{p:'w3'},'his lily pond','about 250 times','in his last twenty years.'],
+   zh:'莫內在人生最後二十年，畫了自己的睡蓮池大約 250 次。',
+   more:'In his final two decades Monet devoted himself to his water garden at Giverny, producing around 250 canvases. This painting is one of them.',src:['The National Gallery, London','https://www.nationalgallery.org.uk/paintings/claude-monet-water-lilies-setting-sun']},
 ];
 const ZH={"w7": "1965 年，蒙德里安的格子走上了 YSL 的伸展台。", "w4": "125 位畫家，一格一格把梵谷畫成了電影。", "w3": "戴上 VR，就能走進莫內的睡蓮池。", "w11": "希涅克的筆觸，來自拜占庭的馬賽克。", "w15": "畢卡索和布拉克，從塞尚身上學會把風景拆成色塊。", "w14": "羅伯特的色塊，最後穿上了索妮亞・德洛內的洋裝。", "w16": "竇加從舞台側邊看舞者，像一台躲在後台的相機。", "w19": "畢沙羅一畫再畫同一片屋頂，像一台架在腳架上的相機。", "w8": "管裝顏料，讓雷諾瓦和朋友們走到戶外作畫。", "w9": "高更的大溪地，看起來有點像一張旅遊廣告。"};
 /* 3 a random story sentence as the headline */
@@ -637,7 +649,7 @@ function story(){
   const st=HERO[i], w=SW[st.id];
   const line=st.parts.map(p=>typeof p==='string'?`<span>${esc(p)}</span>`
     :`<img src="img/${SW[p.p].img}" alt="${esc(SW[p.p].t)}, ${esc(SW[p.p].a)}">`).join(' ');
-  const html=`<p class="say" lang="en">${line}</p><p class="sayzh" lang="zh-Hant">${ZH[st.id]||''}</p>
+  const html=`<p class="say" lang="en">${line}</p><p class="sayzh" lang="zh-Hant">${st.zh||ZH[st.id]||''}</p>
     <div class="cap3"><i>${esc(w.t)}</i> — ${esc(w.a)}, ${w.y}</div>`;
   let stage=document.querySelector('#v3 .stage3');
   if(!stage){
@@ -654,7 +666,7 @@ function story(){
 /* keep the section height steady: measure every story at the current width and reserve the tallest */
 function storyHTML(st){ const w=SW[st.id];
   const line=st.parts.map(p=>typeof p==='string'?`<span>${esc(p)}</span>`:`<img src="img/${SW[p.p].img}" alt="">`).join(' ');
-  return `<p class="say">${line}</p><p class="sayzh">${ZH[st.id]||''}</p><div class="cap3"><i>${esc(w.t)}</i> — ${esc(w.a)}, ${w.y}</div>`; }
+  return `<p class="say">${line}</p><p class="sayzh">${st.zh||ZH[st.id]||''}</p><div class="cap3"><i>${esc(w.t)}</i> — ${esc(w.a)}, ${w.y}</div>`; }
 function reserve(){
   const box=document.querySelector('#v3 .swap'); if(!box) return;
   const probe=document.createElement('div'); probe.className='swap'; probe.setAttribute('aria-hidden','true');
